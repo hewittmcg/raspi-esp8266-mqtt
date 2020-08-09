@@ -4,28 +4,32 @@
 import paho.mqtt.client as mqtt
 from mqtt_msg import respond_to_join, log_msg
 
-import os
+import os, json
+with open("settings.json") as file:
+    settings = json.load(file)
 
-MQTT_PORT = 2000
+MQTT_PORT = settings["port"]
 
 # Consts for device topics
-DEVICE_JOIN_TOPIC = "join"
-DEVICE_TX_TOPIC = "tx" 
-DEVICE_RX_TOPIC = "rx"
+DEVICE_JOIN_TOPIC = "join/"
+DEVICE_TX_TOPIC = "tx/" 
+DEVICE_RX_TOPIC = "rx/"
 
 def on_connect(client, userdata, flags, rc):
     print('Connected to MQTT Broker')
 
     # Subscribe to tx message topic
-    client.subscribe('tx/#')
+    client.subscribe('#')
 
 def on_message(client, userdata, msg):
     print('msg: ' + str(msg.payload.decode('utf-8')))
     print('topic: ' + msg.topic)
-    # Respond to device joining for the first time
-    if msg.topic[-4:] == DEVICE_JOIN_TOPIC:
+    # Respond to device joining for the first time.
+    if msg.topic[-8:] == DEVICE_TX_TOPIC + DEVICE_JOIN_TOPIC:
+        print("JOIN REQUEST RECEIVED")
         respond_to_join(client, userdata, msg)
-    else:
+    elif msg.topic[:3] == DEVICE_TX_TOPIC:
+        print("NORMAL MSG RECEIVED")
         log_msg(client, userdata, msg)
 
 client = mqtt.Client()
@@ -41,3 +45,4 @@ def start():
     client.loop_forever()
 
 start()
+
