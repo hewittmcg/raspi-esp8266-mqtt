@@ -1,0 +1,15 @@
+# Using this as a placeholder for the time being.  Haven't tested yet
+language: python
+
+python: 
+  - "3.7.3"
+
+cache: pip
+
+install: 
+  - sudo pip install -r requirements.txt
+
+# Lint & run tests
+script: 
+  make lint
+  # cd test && pytest

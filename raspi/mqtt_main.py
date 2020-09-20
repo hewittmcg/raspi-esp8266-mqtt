@@ -5,10 +5,10 @@ import paho.mqtt.client as mqtt
 from mqtt_msg import respond_to_join, log_msg
 
 import os, json
-with open("settings.json") as file:
-    settings = json.load(file)
+with open("config.json") as file:
+    config = json.load(file)
 
-MQTT_PORT = settings["port"]
+MQTT_PORT = config["PORT"]
 
 # Consts for device topics
 DEVICE_JOIN_TOPIC = "join/"
@@ -41,8 +41,9 @@ def start():
     if not os.path.exists("./log"):
         os.mkdir("log")
     
-    client.connect('localhost', MQTT_PORT)
+    client.connect('192.168.0.113', MQTT_PORT)
     client.loop_forever()
+    print("does this get here")
 
 start()
 

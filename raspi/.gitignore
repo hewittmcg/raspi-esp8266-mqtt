@@ -1,0 +1,7 @@
+# Don't include log files/project TODO
+log/
+TODO.txt
+
+__pycache__/
+
+*.db
