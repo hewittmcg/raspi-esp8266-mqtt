@@ -7,8 +7,8 @@ import threading
 import time
 
 if __name__ == "__main__":
-    mqtt_thread = threading.thread(target=mqtt_start)
-    app_thread = threading.thread(target=run_app)
+    mqtt_thread = threading.Thread(target=mqtt_start)
+    app_thread = threading.Thread(target=run_app, args=(False,))
 
     mqtt_thread.start()
     app_thread.start()

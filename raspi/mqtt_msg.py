@@ -9,8 +9,9 @@ import csv, json
 from datetime import datetime
 import time
 
-# On join, provision device with new hex ID to be stored in RTC memory
+
 def respond_to_join(client, userdata, msg):
+    ''' On join, provision device with new hex ID to be stored in RTC memory '''
     with open("settings.json", 'r') as file:
         settings = json.load(file)
         device_id = hex(settings["cur_join_device_id"])[2:]
@@ -24,8 +25,9 @@ def respond_to_join(client, userdata, msg):
     print("Sending device id " + device_id + "to device")
     client.publish(DEVICE_RX_TOPIC + DEVICE_JOIN_TOPIC, device_id)
 
-# Log message data under csv file corresponding to device in question
+
 def log_msg(client, userdata, msg):
+    ''' Log message data under csv file corresponding to device in question '''
     device_id = (str)(msg.topic[-4:])
     print("device id: " + device_id)
     with open("./log/" + device_id + ".csv", "a") as file:

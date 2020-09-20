@@ -36,8 +36,8 @@ def list_node():
     except Exception as e:
         return str(e)
 
-def run(): 
-    app.run("0.0.0.0", port=80, debug=True)
+def run(debug): 
+    app.run("0.0.0.0", port=80, debug=debug)
 
 if __name__ == "__main__": 
     app.run("0.0.0.0", port=80, debug=True)
