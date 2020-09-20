@@ -1,8 +1,7 @@
-# Quick Flask webapp to host data. Should refactor in future
+''' Flask webapp to host data received from devices ''' 
 
-from flask import Flask 
-# from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.sql import text
+from flask import Flask, redirect, url_for
+
 import sqlite3 
 
 # Import database functions from app_db module
@@ -10,6 +9,7 @@ from app_db import db_init
 
 app = Flask(__name__)
 
+# Path to database
 NODE_DB_FILEPATH = "nodes.db"
 
 @app.route("/")

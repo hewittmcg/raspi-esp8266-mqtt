@@ -24,16 +24,17 @@ def db_init(conn):
     Returns this reference to allow chaining if desired. '''
     try: 
         conn.execute(CREATE_NODE_TABLE_SQL)
-    except Exception as e:
+    except:
         print("Error raised during node table creation")
         raise
 
     try:
         conn.execute(CREATE_PACKET_TABLE_SQL) 
-    except Exception as e:
+    except:
         print("Error raise during packet table creation")
         raise
 
+    conn.commit()
     return conn 
 
 
@@ -46,6 +47,9 @@ def add_node(conn, device_id, device_name):
     except:
         raise Exception("Conn execute failed")
 
+    conn.commit()
+    return conn
+
 def add_packet(conn, data, time, device_id):
     ''' Add a packet to the database.
     Takes in a reference to the sqlite3 connection, the 
@@ -56,6 +60,9 @@ def add_packet(conn, data, time, device_id):
         conn.execute("INSERT INTO packets (device_id, data, time) VALUES (?, ?, ?)", device_id, data, time)
     except: 
         raise Exception("Packet add failed") 
+
+    conn.commit()
+    return conn
 
 def device_exists(conn, device_id):
     raise Exception("Function unimplemented")

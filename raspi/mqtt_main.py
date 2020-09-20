@@ -1,5 +1,5 @@
-# Module handling MQTT messages sent by an ESP8266 microcontroller.
-# Reqires a mosquitto broker to be set up on the port designated by MQTT_PORT
+''' Handles MQTT messages sent by an ESP8266 microcontroller.
+Reqires a mosquitto broker to be set up on the port designated by MQTT_PORT in config.json. ''' 
 
 import paho.mqtt.client as mqtt
 from mqtt_msg import respond_to_join, log_msg
