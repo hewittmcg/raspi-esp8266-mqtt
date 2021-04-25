@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Server Homepage</title>
+  </head>
+  <body>
+    <h1>Raspi server</h1>
+    <p1>Select a device from the list below:</p1>
+    <br/>
+    <p2>
+      {% for node in nodes %}
+        <a href=nodes/{{node}}>{{node}}</a><br/>
+      {% endfor %}
+    </p2> 
+  </body>
+</html>

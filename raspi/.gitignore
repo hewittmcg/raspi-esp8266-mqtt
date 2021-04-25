@@ -5,3 +5,5 @@ TODO.txt
 __pycache__/
 
 *.db
+*.pyc
+venv/*

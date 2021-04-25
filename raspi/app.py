@@ -1,27 +1,21 @@
 ''' Flask webapp to host data received from devices ''' 
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 
 import sqlite3 
 
-# Import database functions from app_db module
 from app_db import db_init
 
 app = Flask(__name__)
 
-# Path to database
 NODE_DB_FILEPATH = "nodes.db"
+# hardcoding nodes for testing
+nodes = [17, 18, 19]
 
 @app.route("/")
-def testdb(): 
-    return redirect(url_for("list_node"))
-    '''
-    try: 
-        conn = sqlite3.connect(PACKET_DB_FILEPATH)
-        return "it works cool"
-    except Error as e: 
-        return str(e)
-    ''' 
+def index(): 
+    return render_template("index.html", nodes=nodes)
+    # return redirect(url_for("list_node"))
                 
 @app.route("/nodes/")
 def list_node(): 
@@ -35,6 +29,11 @@ def list_node():
         return "Connected to DB OK"
     except Exception as e:
         return str(e)
+
+@app.route("/nodes/<node>")
+def list_data(node):
+    ''' Get data for the node in question '''
+    return render_template("list_data.html", node=18, data=["test", "test test"])
 
 def run(debug): 
     app.run("0.0.0.0", port=80, debug=debug)
