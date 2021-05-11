@@ -1,16 +1,31 @@
 <!doctype html>
 <html lang="en">
   <head>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    </style>
     <title>Server Homepage</title>
   </head>
   <body>
-    <h1>Raspi server</h1>
+    <h1>Raspi Server</h1>
     <p1>Select a device from the list below:</p1>
-    <br/>
-    <p2>
-      {% for node in nodes %}
-        <a href=nodes/{{node}}>{{node}}</a><br/>
+    <!-- <br/> -->
+    <table>  
+      <tr>
+        <th>Device ID</th>
+        <th>Device Name</th>
+        <th>Date Registered</th>  
+      </tr>
+      {% for row in nodes %}
+        <tr>
+          <td><a href=nodes/{{row[0]}}>{{row[0]}}</a></td>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+        </tr>
       {% endfor %}
-    </p2> 
+    </table>
   </body>
 </html>

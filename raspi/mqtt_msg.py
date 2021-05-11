@@ -38,7 +38,7 @@ def respond_to_join(client, userdata, msg):
 
     # Register device in DB
     conn = sqlite3.connect(NODE_DB_FILEPATH)
-    add_node(conn, device_id, "", str(datetime.now().strftime("%H:%M:%S")))
+    add_node(conn, device_id, "", str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.close()
 
 

@@ -20,8 +20,7 @@ CREATE_PACKET_TABLE_SQL = ''' CREATE TABLE IF NOT EXISTS packets (
 
 def db_init(conn):
     ''' Initialize the database. 
-    Takes in a reference to the sqlite3 connection.
-    Returns this reference to allow chaining if desired. '''
+    Takes in a reference to the sqlite3 connection.'''
     try: 
         conn.execute(CREATE_NODE_TABLE_SQL)
     except:
@@ -35,7 +34,6 @@ def db_init(conn):
         raise
 
     conn.commit()
-    return conn 
 
 
 def add_node(conn, device_id, device_name, time): 
@@ -48,7 +46,6 @@ def add_node(conn, device_id, device_name, time):
         print("add_node(): exception raised:\n{}".format(e))
 
     conn.commit()
-    return conn
 
 def add_packet(conn, data, time, device_id):
     ''' Add a packet to the database.
@@ -63,7 +60,22 @@ def add_packet(conn, data, time, device_id):
         print("add_packet(): exception raised:\n{}".format(e))
 
     conn.commit()
-    return conn
+
+def get_nodes(conn):
+    ''' Return a list of all the nodes in the database. '''
+    try:
+        nodes = (conn.execute("SELECT * FROM nodes")).fetchall()
+    except Exception as e:
+        print("get_nodes(): exception raised:\n{}".format(e))
+    return nodes
+
+def get_packets(conn, device_id):
+    ''' Return a list of all the packets associated with the given device id '''
+    try:
+        packets = (conn.execute("SELECT * FROM packets WHERE device_id = (?)", (device_id))).fetchall()
+    except Exception as e:
+        print("get_packets(): exception raised:\n{}".format(e))
+    return packets
 
 def device_exists(conn, device_id):
     raise Exception("Function unimplemented")
