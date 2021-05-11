@@ -7,8 +7,9 @@ import threading
 sys.path.append("./app")
 sys.path.append("./mqtt")
 
-from mqtt_main import start as mqtt_start
-from app import run as run_app
+# These need to be after adding to the PATH, so exclude from formatting
+from mqtt_main import start as mqtt_start  # nopep8
+from app import run as run_app  # nopep8
 
 if __name__ == "__main__":
     mqtt_thread = threading.Thread(target=mqtt_start)
