@@ -38,7 +38,10 @@ def list_node():
 @app.route("/nodes/<node>")
 def list_data(node):
     ''' Get data for the node in question '''
-    return render_template("list_data.html", node=node, data=["test", "test test"])
+    conn = sqlite3.connect(NODE_DB_FILEPATH)
+    packets = get_packets(conn, str(node))
+    conn.close()
+    return render_template("list_data.html", node=node, packets=packets)
 
 def run(debug): 
     conn= sqlite3.connect(NODE_DB_FILEPATH)

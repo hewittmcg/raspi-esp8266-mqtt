@@ -71,8 +71,9 @@ def get_nodes(conn):
 
 def get_packets(conn, device_id):
     ''' Return a list of all the packets associated with the given device id '''
+    packets = []
     try:
-        packets = (conn.execute("SELECT * FROM packets WHERE device_id = (?)", (device_id))).fetchall()
+        packets = (conn.execute("SELECT time, data FROM packets WHERE device_id = (?)", (device_id,))).fetchall()
     except Exception as e:
         print("get_packets(): exception raised:\n{}".format(e))
     return packets

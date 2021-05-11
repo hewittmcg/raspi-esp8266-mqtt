@@ -48,11 +48,11 @@ def log_msg(client, userdata, msg):
     print("device id: " + device_id)
 
     data = msg.payload.decode('utf-8')
-    time = datetime.now().strftime("%H:%M:%S")
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open("./log/" + device_id + ".csv", "a") as file:
         writer = csv.writer(file)
-        writer.writerow([datetime.now().strftime("%H:%M:%S"), msg.payload.decode('utf-8')])
+        writer.writerow([time, msg.payload.decode('utf-8')])
 
     # Write to DB
     conn = sqlite3.connect(NODE_DB_FILEPATH)
