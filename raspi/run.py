@@ -1,16 +1,14 @@
 ''' Run app + MQTT packet handler modules using multithreading '''
 
 import sys
+import threading
 
 # Add app and mqtt folders to PATH
 sys.path.append("./app")
 sys.path.append("./mqtt")
 
-from app import run as run_app
 from mqtt_main import start as mqtt_start
-
-import threading
-
+from app import run as run_app
 
 if __name__ == "__main__":
     mqtt_thread = threading.Thread(target=mqtt_start)
@@ -20,5 +18,3 @@ if __name__ == "__main__":
 
     mqtt_thread.start()
     app_thread.start()
-
-    

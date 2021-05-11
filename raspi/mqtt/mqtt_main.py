@@ -1,10 +1,11 @@
 ''' Handles MQTT messages sent by an ESP8266 microcontroller.
-Reqires a mosquitto broker to be set up on the port designated by MQTT_PORT in config.json. ''' 
+Reqires a mosquitto broker to be set up on the port designated by MQTT_PORT in config.json. '''
 
 import paho.mqtt.client as mqtt
 from mqtt_msg import CONFIG_FILEPATH, respond_to_join, log_msg
 
-import os, json
+import os
+import json
 
 
 with open(CONFIG_FILEPATH) as file:
@@ -14,7 +15,7 @@ MQTT_PORT = config["PORT"]
 
 # Consts for device topics
 DEVICE_JOIN_TOPIC = "join/"
-DEVICE_TX_TOPIC = "tx/" 
+DEVICE_TX_TOPIC = "tx/"
 DEVICE_RX_TOPIC = "rx/"
 
 
@@ -43,11 +44,12 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
+
 def start():
     ''' Create log file and start listening to MQTT port '''
     if not os.path.exists("./log"):
         os.mkdir("log")
-    
+
     client.connect('localhost', MQTT_PORT)
     client.loop_forever()
 
@@ -57,4 +59,3 @@ if __name__ == "__main__":
         start()
     except Exception as e:
         print(e)
-

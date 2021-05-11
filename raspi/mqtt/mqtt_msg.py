@@ -1,7 +1,7 @@
 ''' MQTT message handling functions '''
 
 import paho.mqtt.client as mqtt
-import csv 
+import csv
 import json
 from datetime import datetime
 import sqlite3
@@ -17,6 +17,7 @@ CONFIG_FILEPATH = os.path.join(dirname, "config.json")
 
 DEVICE_JOIN_TOPIC = "join/"
 DEVICE_RX_TOPIC = "rx/"
+
 
 def respond_to_join(client, userdata, msg):
     ''' On join, provision device with new unique hex ID and add device to DB '''
@@ -38,7 +39,8 @@ def respond_to_join(client, userdata, msg):
 
     # Register device in DB
     conn = sqlite3.connect(NODE_DB_FILEPATH)
-    add_node(conn, device_id, "", str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    add_node(conn, device_id, "", str(
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.close()
 
 
