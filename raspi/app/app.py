@@ -3,12 +3,13 @@
 from flask import Flask, redirect, url_for, render_template
 
 import sqlite3 
-
+import os
 from app_db import db_init, get_nodes, get_packets
 
 app = Flask(__name__)
 
-NODE_DB_FILEPATH = "nodes.db"
+dirname = os.path.dirname(__file__)
+NODE_DB_FILEPATH = os.path.join(dirname, "nodes.db")
 # hardcoding nodes for testing
 # nodes = [17, 18, 19]
 
