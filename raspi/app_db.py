@@ -31,21 +31,21 @@ def db_init(conn):
     try:
         conn.execute(CREATE_PACKET_TABLE_SQL) 
     except:
-        print("Error raise during packet table creation")
+        print("Error raised during packet table creation")
         raise
 
     conn.commit()
     return conn 
 
 
-def add_node(conn, device_id, device_name): 
+def add_node(conn, device_id, device_name, time): 
     ''' Add a node to the node db. 
     Takes in a reference to the sqlite3 connection. '''
     # raise Exception("Function unimplemented")
     try: 
-        conn.execute("INSERT INTO nodes(device_id, device_name) VALUES (?, ?)", device_id, device_name)
-    except:
-        raise Exception("Conn execute failed")
+        conn.execute("INSERT INTO nodes(device_id, device_name, register_date) VALUES (?, ?, ?)", (device_id, device_name, time))
+    except Exception as e:
+        print("add_node(): exception raised:\n{}".format(e))
 
     conn.commit()
     return conn
@@ -56,10 +56,11 @@ def add_packet(conn, data, time, device_id):
     packet data, the time the packet was received, and the 
     device id the packet was received from. '''
     # raise Exception("Function unimplemented")
+    print("Adding packet device_id: {} data {} time {}".format(device_id, data, time))
     try: 
-        conn.execute("INSERT INTO packets (device_id, data, time) VALUES (?, ?, ?)", device_id, data, time)
-    except: 
-        raise Exception("Packet add failed") 
+        conn.execute("INSERT INTO packets (device_id, data, time) VALUES (?, ?, ?)", (device_id, data, time))
+    except Exception as e:
+        print("add_packet(): exception raised:\n{}".format(e))
 
     conn.commit()
     return conn

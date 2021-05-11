@@ -15,25 +15,30 @@ DEVICE_RX_TOPIC = "rx/"
 
 def respond_to_join(client, userdata, msg):
     ''' On join, provision device with new unique hex ID and add device to DB '''
-    with open("settings.json", 'r') as file:
-        settings = json.load(file)
-        device_id = hex(settings["cur_join_device_id"])[2:]
-        settings["cur_join_device_id"] += 1
+    print("in respond_to_join call")
+    with open("config.json", 'r') as file:
+        print("with open")
+        config = json.load(file)
+        device_id = hex(config["CUR_JOIN_DEVICE_ID"])[2:]
+        print("before inc settings device id")
+        config["CUR_JOIN_DEVICE_ID"] += 1
 
-    with open("settings.json", 'w') as file:
-        json.dump(settings, file)
+    print("before writing to json")
+    with open("config.json", 'w') as file:
+        json.dump(config, file)
 
+    print("after writing to json")
     # Append leading zeros to value
     for i in range(0, 4 - len(device_id)):
         device_id = "0" + device_id
 
     # Send to device
-    print("Sending device id " + device_id + "to device")
+    print("Sending device id " + device_id + " to device")
     client.publish(DEVICE_RX_TOPIC + DEVICE_JOIN_TOPIC, device_id)
 
     # Register device in DB
     conn = sqlite3.connect(NODE_DB_FILEPATH)
-    add_node(conn, device_id, "")
+    add_node(conn, device_id, "", str(datetime.now().strftime("%H:%M:%S")))
     conn.close()
 
 

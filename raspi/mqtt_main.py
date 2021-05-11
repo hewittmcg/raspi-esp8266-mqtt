@@ -53,5 +53,8 @@ def start():
 
 
 if __name__ == "__main__":
-    start()
+    try:
+        start()
+    except Exception as e:
+        print(e)
 
