@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Data for device {{node}} </title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Data for device {{node}}</h1>
+    <table>  
+      <tr>
+        <th>Time</th>
+        <th>Data</th>  
+      </tr>
+      {% for row in packets %}
+        <tr>
+          <td>{{row[0]}}</td>
+          <td>{{row[1]}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
