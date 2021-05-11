@@ -1,4 +1,4 @@
-''' Functions to handle db actions from Flask app '''
+''' Functions to handle db actions from Flask app and mqtt_msg'''
 
 import sqlite3
 
@@ -37,8 +37,9 @@ def db_init(conn):
 
 def add_node(conn, device_id, device_name, time):
     ''' Add a node to the node db. 
-    Takes in a reference to the sqlite3 connection. '''
-    # raise Exception("Function unimplemented")
+    Takes in a reference to the sqlite3 connection,
+    the device id, the device name, and the time the
+    device was registered. '''
     try:
         conn.execute("INSERT INTO nodes(device_id, device_name, register_date) VALUES (?, ?, ?)",
                      (device_id, device_name, time))
@@ -53,7 +54,6 @@ def add_packet(conn, data, time, device_id):
     Takes in a reference to the sqlite3 connection, the 
     packet data, the time the packet was received, and the 
     device id the packet was received from. '''
-    # raise Exception("Function unimplemented")
     print("Adding packet device_id: {} data {} time {}".format(device_id, data, time))
     try:
         conn.execute(
