@@ -20,19 +20,14 @@ DEVICE_RX_TOPIC = "rx/"
 
 def respond_to_join(client, userdata, msg):
     ''' On join, provision device with new unique hex ID and add device to DB '''
-    print("in respond_to_join call")
     with open(CONFIG_FILEPATH, 'r') as file:
-        print("with open")
         config = json.load(file)
         device_id = hex(config["CUR_JOIN_DEVICE_ID"])[2:]
-        print("before inc settings device id")
         config["CUR_JOIN_DEVICE_ID"] += 1
 
-    print("before writing to json")
     with open(CONFIG_FILEPATH, 'w') as file:
         json.dump(config, file)
 
-    print("after writing to json")
     # Append leading zeros to value
     for i in range(0, 4 - len(device_id)):
         device_id = "0" + device_id

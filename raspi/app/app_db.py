@@ -3,7 +3,6 @@
 import sqlite3
 
 # Constants to use to create SQL tables for nodes, packets
-
 CREATE_NODE_TABLE_SQL = ''' CREATE TABLE IF NOT EXISTS nodes (
     device_id text PRIMARY KEY, 
     device_name text,
@@ -16,7 +15,6 @@ CREATE_PACKET_TABLE_SQL = ''' CREATE TABLE IF NOT EXISTS packets (
     time text NOT NULL, 
     FOREIGN KEY (device_id) REFERENCES nodes (device_id)
 ); '''
-
 
 def db_init(conn):
     ''' Initialize the database. 
@@ -34,7 +32,6 @@ def db_init(conn):
         raise
 
     conn.commit()
-
 
 def add_node(conn, device_id, device_name, time): 
     ''' Add a node to the node db. 

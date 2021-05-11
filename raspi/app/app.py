@@ -10,31 +10,19 @@ app = Flask(__name__)
 
 dirname = os.path.dirname(__file__)
 NODE_DB_FILEPATH = os.path.join(dirname, "nodes.db")
-# hardcoding nodes for testing
-# nodes = [17, 18, 19]
 
 # TODO: use an app factory for a lot of this stuff to reduce complexity/make code more readable
 @app.route("/")
 def index(): 
-    conn = sqlite3.connect(NODE_DB_FILEPATH)
-    nodes = get_nodes(conn)
-    # nodes = [i[0] for i in nodes]
-    conn.close()
-    return render_template("index.html", nodes=nodes)
-    # return redirect(url_for("list_node"))
+    return redirect(url_for("list_node"))
                 
 @app.route("/nodes/")
 def list_node(): 
     ''' Return list of all devices registered in database '''
-    try:
-        conn = sqlite3.connect(NODE_DB_FILEPATH)
-        try: 
-            db_init(conn)
-        except Exception as e:
-            return str(e)
-        return "Connected to DB OK"
-    except Exception as e:
-        return str(e)
+    conn = sqlite3.connect(NODE_DB_FILEPATH)
+    nodes = get_nodes(conn)
+    conn.close()
+    return render_template("list_node.html", nodes=nodes)
 
 @app.route("/nodes/<node>")
 def list_data(node):
