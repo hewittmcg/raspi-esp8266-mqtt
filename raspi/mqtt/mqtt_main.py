@@ -2,13 +2,12 @@
 Reqires a mosquitto broker to be set up on the port designated by MQTT_PORT in config.json. ''' 
 
 import paho.mqtt.client as mqtt
-from mqtt_msg import respond_to_join, log_msg
+from mqtt_msg import CONFIG_FILEPATH, respond_to_join, log_msg
 
 import os, json
 
-# Load info from config file
-dirname = os.path.dirname(__file__)
-with open(os.path.join(dirname, "config.json")) as file:
+
+with open(CONFIG_FILEPATH) as file:
     config = json.load(file)
 
 MQTT_PORT = config["PORT"]

@@ -5,13 +5,13 @@ import sqlite3
 # Constants to use to create SQL tables for nodes, packets
 
 CREATE_NODE_TABLE_SQL = ''' CREATE TABLE IF NOT EXISTS nodes (
-    device_id integer PRIMARY KEY, 
+    device_id text PRIMARY KEY, 
     device_name text,
     register_date text NOT NULL
 ); '''
 
 CREATE_PACKET_TABLE_SQL = ''' CREATE TABLE IF NOT EXISTS packets (
-    device_id integer NOT NULL,
+    device_id text NOT NULL,
     data integer,
     time text NOT NULL, 
     FOREIGN KEY (device_id) REFERENCES nodes (device_id)
@@ -80,5 +80,3 @@ def get_packets(conn, device_id):
 
 def device_exists(conn, device_id):
     raise Exception("Function unimplemented")
-
-        

@@ -5,10 +5,15 @@ import csv
 import json
 from datetime import datetime
 import sqlite3
+import os
 
 from app_db import add_node, add_packet
 
 from app import NODE_DB_FILEPATH
+
+# Create config filepath
+dirname = os.path.dirname(__file__)
+CONFIG_FILEPATH = os.path.join(dirname, "config.json")
 
 DEVICE_JOIN_TOPIC = "join/"
 DEVICE_RX_TOPIC = "rx/"
@@ -16,7 +21,7 @@ DEVICE_RX_TOPIC = "rx/"
 def respond_to_join(client, userdata, msg):
     ''' On join, provision device with new unique hex ID and add device to DB '''
     print("in respond_to_join call")
-    with open("config.json", 'r') as file:
+    with open(CONFIG_FILEPATH, 'r') as file:
         print("with open")
         config = json.load(file)
         device_id = hex(config["CUR_JOIN_DEVICE_ID"])[2:]
@@ -24,7 +29,7 @@ def respond_to_join(client, userdata, msg):
         config["CUR_JOIN_DEVICE_ID"] += 1
 
     print("before writing to json")
-    with open("config.json", 'w') as file:
+    with open(CONFIG_FILEPATH, 'w') as file:
         json.dump(config, file)
 
     print("after writing to json")
