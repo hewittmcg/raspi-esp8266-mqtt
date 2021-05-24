@@ -6,6 +6,7 @@ from mqtt_msg import CONFIG_FILEPATH, respond_to_join, log_msg
 
 import os
 import json
+import traceback
 
 
 with open(CONFIG_FILEPATH) as file:
@@ -29,16 +30,20 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     ''' Callback to run on reception of MQTT message '''
-    print('msg: ' + str(msg.payload.decode('utf-8')))
-    print('topic: ' + msg.topic)
-    # Respond to device joining for the first time.
-    if msg.topic[-8:] == DEVICE_TX_TOPIC + DEVICE_JOIN_TOPIC:
-        print("JOIN REQUEST RECEIVED")
-        respond_to_join(client, userdata, msg)
-    elif msg.topic[:3] == DEVICE_TX_TOPIC:
-        print("NORMAL MSG RECEIVED")
-        log_msg(client, userdata, msg)
-
+    try:
+        print('msg: ' + str(msg.payload.decode('utf-8')))
+        print('topic: ' + msg.topic)
+        # Respond to device joining for the first time.
+        if msg.topic[-8:] == DEVICE_TX_TOPIC + DEVICE_JOIN_TOPIC:
+            print("JOIN REQUEST RECEIVED")
+            respond_to_join(client, userdata, msg)
+        elif msg.topic[:3] == DEVICE_TX_TOPIC:
+            print("NORMAL MSG RECEIVED")
+            log_msg(client, userdata, msg)
+    except Exception as e:
+        # raise here since loop_forever() call blocks exceptions
+        print("Exception raised in on_message call:")
+        traceback.print_exc()
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -51,8 +56,9 @@ def start():
         os.mkdir("log")
 
     client.connect('localhost', MQTT_PORT)
-    client.loop_forever()
 
+    # blocking
+    client.loop_forever()
 
 if __name__ == "__main__":
     try:
