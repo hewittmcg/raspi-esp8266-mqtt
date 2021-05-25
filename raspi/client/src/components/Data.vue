@@ -29,9 +29,6 @@ export default {
   },
   methods: {
     getMessage() {
-      // eslint-disable-next-line
-      console.log(this.$route.params.id);
-      //   const deviceId = 'window.location.pathname'.split();
       // Flask API serves to port 5000
       const path = `http://${window.location.hostname}:5000/device/${this.$route.params.id}`;
       axios.get(path)

@@ -17,12 +17,6 @@ NODE_DB_FILEPATH = os.path.join(dirname, "nodes.db")
 
 # TODO: use an app factory for a lot of this stuff to reduce complexity/make code more readable
 
-
-@app.route("/")
-def index():
-    return jsonify("testing for now")
-    # return redirect(url_for("list_node"))
-
 @app.route("/devices", methods = ["GET"])
 def list_devices():
     conn = sqlite3.connect(NODE_DB_FILEPATH)
@@ -36,24 +30,6 @@ def list_packets(device):
     packets = get_packets(conn, str(device))
     conn.close()
     return jsonify(packets)    
-
-@app.route("/nodes/")
-def list_node():
-    ''' Return list of all devices registered in database '''
-    conn = sqlite3.connect(NODE_DB_FILEPATH)
-    nodes = get_nodes(conn)
-    conn.close()
-    return render_template("list_node.html", nodes=nodes)
-
-
-@app.route("/nodes/<node>")
-def list_data(node):
-    ''' Get data for the node in question '''
-    conn = sqlite3.connect(NODE_DB_FILEPATH)
-    packets = get_packets(conn, str(node))
-    conn.close()
-    return render_template("list_data.html", node=node, packets=packets)
-
 
 def run(debug):
     conn = sqlite3.connect(NODE_DB_FILEPATH)

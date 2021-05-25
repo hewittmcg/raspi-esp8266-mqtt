@@ -22,8 +22,7 @@
 
 <script>
 import axios from 'axios';
-// eslint-disable-next-line
-console.log("in script");
+
 export default {
   name: 'Devices',
   data() {
