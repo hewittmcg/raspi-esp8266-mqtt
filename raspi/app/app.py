@@ -1,12 +1,16 @@
 ''' Flask webapp to host data received from devices '''
 
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, jsonify
+from flask_cors import CORS
 
 import sqlite3
 import os
 from app_db import db_init, get_nodes, get_packets
 
 app = Flask(__name__)
+
+# enable cross-origin requests
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 dirname = os.path.dirname(__file__)
 NODE_DB_FILEPATH = os.path.join(dirname, "nodes.db")
@@ -16,8 +20,12 @@ NODE_DB_FILEPATH = os.path.join(dirname, "nodes.db")
 
 @app.route("/")
 def index():
-    return redirect(url_for("list_node"))
+    return jsonify("testing for now")
+    # return redirect(url_for("list_node"))
 
+@app.route("/devices", methods = ["GET"])
+def list_devices():
+    return jsonify("devices!!!")
 
 @app.route("/nodes/")
 def list_node():
@@ -41,8 +49,8 @@ def run(debug):
     conn = sqlite3.connect(NODE_DB_FILEPATH)
     db_init(conn)
     conn.close()
-    app.run("0.0.0.0", port=80, debug=debug)
+    app.run("0.0.0.0", port=5000, debug=debug)
 
 
 if __name__ == "__main__":
-    app.run("0.0.0.0", port=80, debug=True)
+    app.run("0.0.0.0", port=5000, debug=True)
