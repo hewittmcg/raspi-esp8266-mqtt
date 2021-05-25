@@ -2,7 +2,7 @@
 
 The general idea behind this is to create a simple way to track sensor readings (e.g. water level in plant pots) from devices connected to the same network, creating a simple smart home framework.  
 
-[ESP8266](https://www.espressif.com/en/products/socs/esp8266)-based microcontrollers are used as the devices. A Raspberry Pi 4 Model B is used to aggregate device reports sent over MQTT.  It also sends a unique device ID to devices when they are first powered on.  This ID is stored in RTC memory so that devices don't need to rejoin each time new firmware is loaded.  A Flask web app is hosted on the Pi, through which devices and their respective messages can be viewed.
+[ESP8266](https://www.espressif.com/en/products/socs/esp8266)-based microcontrollers are used as the devices. A Raspberry Pi 4 Model B is used to aggregate device reports sent over MQTT.  It also sends a unique device ID to devices when they are first powered on.  This ID is stored in RTC memory so that devices don't need to rejoin each time new firmware is loaded.  A Flask app with a Vue frontend is hosted on the Pi, through which devices and their respective messages can be viewed.
 
 ## Getting Started
 
@@ -20,6 +20,9 @@ sudo apt-get install mosquitto
 git clone https://github.com/hewittmcg/raspi-esp8266-mqtt.git
 cd raspi-esp8266-mqtt/raspi
 pip install -r requirements.txt
+cd client
+sudo npm install
+cd ..
 ```
 
 Mosquitto defaults to listen to port 1883, but this software is configured to use port 2000 instead.
@@ -33,7 +36,13 @@ Now, run the software:
 sudo python run.py
 ```
 
-Navitage to the IP of the Pi and you should see a *very ugly* webpage titled "Devices".
+In a separate terminal, set up the frontend:
+```bash
+cd client
+sudo npm run serve
+```
+
+Navitage to the port 8080 at the IP of the Pi and you should see a webpage titled "Devices".
 
 ### ESP8266
 *This section assumes you have a general understanding of how to setup the Arduino IDE to work with an ESP8266.  If not, [this article](https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/) offers a good explanation.*
