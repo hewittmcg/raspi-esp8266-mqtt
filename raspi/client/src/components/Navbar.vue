@@ -1,6 +1,6 @@
 <template>
     <b-navbar variant=dark type=dark>
-        <b-navbar-brand tag=h1>Raspberry Pi Server</b-navbar-brand>
+        <b-navbar-brand>{{this.$route.meta.title}}</b-navbar-brand>
         <b-navbar-nav>
             <b-nav-item :to="{name: 'Devices'}">Home</b-nav-item>
         </b-navbar-nav>
