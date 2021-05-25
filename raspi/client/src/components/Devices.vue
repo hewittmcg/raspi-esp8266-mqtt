@@ -9,7 +9,7 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="device in devices" :key="device">
+            <tr v-for="device in devices" :key="device[0]">
                 <td>{{device[0]}}</td>
                 <td>{{device[1]}}</td>
                 <td>{{device[2]}}</td>
