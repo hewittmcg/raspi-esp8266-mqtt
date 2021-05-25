@@ -5,7 +5,7 @@ import Data from '../components/Data.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -17,11 +17,23 @@ export default new Router({
       path: '/devices',
       name: 'Devices',
       component: Devices,
+      meta: { title: 'Device List' },
     },
     {
       path: '/device/:id',
       name: 'Data',
       component: Data,
+      meta: { title: 'Device Data' },
     },
   ],
 });
+
+// Handle page titles
+const DEFAULT_TITLE = 'Raspberry Pi Server';
+router.afterEach((to) => {
+  Vue.nextTick(() => {
+    document.title = to.meta.title ? to.meta.title : DEFAULT_TITLE;
+  });
+});
+
+export default router;
