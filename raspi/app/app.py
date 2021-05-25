@@ -30,6 +30,13 @@ def list_devices():
     conn.close()
     return jsonify(nodes)
 
+@app.route("/device/<device>", methods = ["GET"])
+def list_packets(device):
+    conn = sqlite3.connect(NODE_DB_FILEPATH)
+    packets = get_packets(conn, str(device))
+    conn.close()
+    return jsonify(packets)    
+
 @app.route("/nodes/")
 def list_node():
     ''' Return list of all devices registered in database '''

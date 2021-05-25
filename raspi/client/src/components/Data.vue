@@ -3,17 +3,14 @@
       <table class='table table-hover'>
           <thead>
               <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Date Registered</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Data</th>
               </tr>
           </thead>
           <tbody>
-            <tr v-for="device in devices" :key="device[0]">
-                <td><router-link :to="{
-                    name: 'Data', params: { id: device[0] } }">{{device[0]}}</router-link></td>
-                <td>{{device[1]}}</td>
-                <td>{{device[2]}}</td>
+            <tr v-for="packet in packets" :key="packet[0]">
+                <td>{{packet[0]}}</td>
+                <td>{{packet[1]}}</td>
             </tr>
           </tbody>
       </table>
@@ -22,22 +19,24 @@
 
 <script>
 import axios from 'axios';
-// eslint-disable-next-line
-console.log("in script");
+
 export default {
-  name: 'Devices',
+  name: 'Data',
   data() {
     return {
-      devices: [],
+      packets: [],
     };
   },
   methods: {
     getMessage() {
+      // eslint-disable-next-line
+      console.log(this.$route.params.id);
+      //   const deviceId = 'window.location.pathname'.split();
       // Flask API serves to port 5000
-      const path = `http://${window.location.hostname}:5000/devices`;
+      const path = `http://${window.location.hostname}:5000/device/${this.$route.params.id}`;
       axios.get(path)
         .then((res) => {
-          this.devices = res.data;
+          this.packets = res.data;
         })
         .catch((error) => {
           // eslint-disable-next-line
