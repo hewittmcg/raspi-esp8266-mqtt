@@ -1,6 +1,21 @@
 <template>
   <div>
-    <p>{{ msg }}</p>
+      <table class='table table-hover'>
+          <thead>
+              <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Date Registered</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr v-for="device in devices" :key="device">
+                <td>{{device[0]}}</td>
+                <td>{{device[1]}}</td>
+                <td>{{device[2]}}</td>
+            </tr>
+          </tbody>
+      </table>
   </div>
 </template>
 
@@ -12,7 +27,7 @@ export default {
   name: 'Devices',
   data() {
     return {
-      msg: '',
+      devices: [],
     };
   },
   methods: {
@@ -21,7 +36,7 @@ export default {
       const path = `http://${window.location.hostname}:5000/devices`;
       axios.get(path)
         .then((res) => {
-          this.msg = res.data;
+          this.devices = res.data;
         })
         .catch((error) => {
           // eslint-disable-next-line

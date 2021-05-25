@@ -25,7 +25,10 @@ def index():
 
 @app.route("/devices", methods = ["GET"])
 def list_devices():
-    return jsonify("devices!!!")
+    conn = sqlite3.connect(NODE_DB_FILEPATH)
+    nodes = get_nodes(conn)
+    conn.close()
+    return jsonify(nodes)
 
 @app.route("/nodes/")
 def list_node():
